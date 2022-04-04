@@ -20,7 +20,7 @@ namespace zich
         Matrix();
         Matrix(vector<double> values,int Rows, int Colums);
         Matrix(int Row,int Colums);
-        // ~Matrix();
+        ~Matrix();
 
         // Getters / Setters
         int getCols(){
@@ -34,8 +34,8 @@ namespace zich
         void printMat();
 
         // Arithmetic actions on single Matrix.
-        // friend Matrix operator++();
-        // friend Matrix operator--();
+        friend Matrix operator++(Matrix &m);
+        friend Matrix operator--(Matrix &m);
 
         // Arithmetic actions between two Matrix.
         friend Matrix operator+(const Matrix &matrix1, const Matrix &matrix2);
@@ -47,24 +47,26 @@ namespace zich
         
         // Arithmetic actions between Matrix and scalar.
         friend Matrix operator*(double s ,const Matrix &matrix1);
+        friend Matrix operator*(const Matrix &matrix1,double s );
         void operator*=(double s);
         
         // Compare Operator between two matrix.
-        bool operator<(const Matrix &matrix1, const Matrix &matrix2);
-        friend Matrix operator<=(const Matrix &matrix1, const Matrix &matrix2);
-        friend Matrix operator<(const Matrix &matrix1, const Matrix &matrix2);
-        friend Matrix operator<=(const Matrix &matrix1, const Matrix &matrix2);
-        friend Matrix operator==(const Matrix &matrix1, const Matrix &matrix2);
-        friend Matrix operator!=(const Matrix &matrix1, const Matrix &matrix2);
+        friend bool operator<(const Matrix &matrix1, const Matrix &matrix2);
+        friend bool operator<=(const Matrix &matrix1, const Matrix &matrix2);
+        friend bool operator<(const Matrix &matrix1, const Matrix &matrix2);
+        friend bool operator<=(const Matrix &matrix1, const Matrix &matrix2);
+        friend bool operator==(const Matrix &matrix1, const Matrix &matrix2);
+        friend bool operator!=(const Matrix &matrix1, const Matrix &matrix2);
 
 
         // Onitery Actions
-        Matrix operator-();
-        Matrix operator+();
+        Matrix& operator-();
+        Matrix& operator+();
 
 
-        // Ostream
+        // Ostream/Istream
         friend ostream & operator<<(std::ostream &o, Matrix &matrix);
+        friend istream & operator>>(std::istream &o, Matrix &matrix);
 
     };
     

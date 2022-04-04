@@ -59,7 +59,6 @@ double sum_of_matrix(Matrix m){
     return ans;
 }
 
-
 // Constractors
 Matrix::Matrix(){
     this->colums = 1;
@@ -72,7 +71,7 @@ Matrix::Matrix(int Row,int Colums){
     this->rows = Row;
     this->colums = Colums;
     this->mat = new double*[(size_t)Row];
-    for(int i=0; i<Colums;i++){
+    for(int i=0; i<Row;i++){
         this->mat[i] = new double[(size_t)Colums]; 
     }
     size_t x=0;
@@ -86,7 +85,7 @@ Matrix::Matrix(std::vector<double> values, int row, int col){
     this->rows = row;
     this->colums = col;
     this->mat = new double*[(size_t)row];
-    for(int i=0; i<col;i++){
+    for(int i=0; i<row;i++){
         this->mat[i] = new double[(size_t)col]; 
     }
     size_t x=0;
@@ -95,6 +94,12 @@ Matrix::Matrix(std::vector<double> values, int row, int col){
             mat[i][j] = values[x++];
         }
     }
+}
+Matrix::~Matrix(){
+    for(size_t i=0; i<this->rows; i++){
+        delete [] this->mat[i];
+    }
+    delete [] this->mat;
 }
 
 // Arithmetic actions between two Matrix.
@@ -151,6 +156,15 @@ Matrix zich::operator*(const Matrix &matrix1, const Matrix &matrix2){
     }
     return tmp;
 }
+Matrix zich::operator*(const Matrix &matrix1,double s ){
+    Matrix tmp(matrix1.rows,matrix1.colums);
+    for(size_t i=0; i< matrix1.rows; i++){
+        for(size_t j=0; j<matrix1.colums; j++){
+            tmp.mat[i][j] = matrix1.mat[i][j] *s; 
+        }
+    }
+    return tmp;
+}
 void Matrix::operator*=( const Matrix &matrix2){
     if(this->colums != matrix2.rows){throw invalid_argument("Matrixes sizes must be equal!");}
     Matrix tmp(this->rows, matrix2.colums);
@@ -190,7 +204,7 @@ void Matrix::operator*=(double s ){
 }
 
 // Unary Actions
-Matrix Matrix::operator-(){
+Matrix& Matrix::operator-(){
     Matrix tmp(this->rows,this->colums);
     for(size_t i=0; i< this->rows; i++){
         for(size_t j=0; j<this->colums; j++){
@@ -199,9 +213,10 @@ Matrix Matrix::operator-(){
             }
         }
     }
-    return tmp;
+    this->mat = tmp.mat;
+    return *this;
 }
-Matrix Matrix::operator+(){
+Matrix& Matrix::operator+(){
     Matrix tmp(this->rows,this->colums);
     for(size_t i=0; i< this->rows; i++){
         for(size_t j=0; j<this->colums; j++){
@@ -210,7 +225,8 @@ Matrix Matrix::operator+(){
             }
         }
     }
-    return tmp;
+    this->mat = tmp.mat;
+    return *this;
 }
 
 // Compare Operator between two matrix.
@@ -226,6 +242,24 @@ bool zich::operator<(const Matrix &matrix1, const Matrix &matrix2){
 // friend Matrix operator<=(const Matrix &matrix1, const Matrix &matrix2);
 // friend Matrix operator==(const Matrix &matrix1, const Matrix &matrix2);
 // friend Matrix operator!=(const Matrix &matrix1, const Matrix &matrix2);
+
+// Ostream/Istream
+ostream & zich::operator<<(std::ostream &o, Matrix &matrix){
+    int row = matrix.rows;
+    int col = matrix.colums;
+    for(size_t i=0; i<row; i++){
+        o << "["; 
+        for(size_t j=0; j<col; j++){
+            if(j==col-1){
+                o << matrix.mat[i][j]; 
+            }else{
+                o << matrix.mat[i][j] << ","; 
+            }   
+        }
+        o << "]"<<endl; 
+    }
+    return o;
+}
 
 
 
