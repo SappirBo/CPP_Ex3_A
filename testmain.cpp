@@ -15,14 +15,14 @@ int main(){
     Matrix m{value,2,3};
     Matrix m2{value2,3,4};
    
-    m2.printMat();
+    // m2.printMat();
+    cout<<m2<<endl;
+    // (2*m2).printMat();
+    // m2.printMat();
     
-    (2*m2).printMat();
-    m2.printMat();
-    
-    m2 *= 2;
-    m2.printMat();
-    (-m2).printMat();
+    // m2 *= 2;
+    // m2.printMat();
+    // (-m2).printMat();
 
     bool a = -m2 < m2 ;
     bool b = m2 < (-m2) ;
