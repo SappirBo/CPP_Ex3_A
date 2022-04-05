@@ -11,16 +11,82 @@ using namespace std;
 using namespace zich;
 
 
-TEST_CASE("Case 1")
+TEST_CASE("Constractor")
 {
-	// Test Case 1 --> 
-	CHECK(true == true);
+	// Test Case 1 --> Constractor - full parameters
+	std::vector<double> identity = {1, 0, 0, 0, 1, 0, 0, 0, 1};
+  	std::vector<double> arr = {3, 0, 0, 0, 3, 0, 0, 0, 3};
+  	Matrix a{identity, 3, 3};
+	CHECK(a.colums == 3);
+	CHECK(a.rows == 3);
+	CHECK(a.mat[0][0] == 1);
+	CHECK(a.mat[1][1] == 1);
+	CHECK(a.mat[2][2] == 1);
+	// Test Case 2 --> Constractor - By row and columns values only
+	Matrix b(3,5);
+	CHECK(b.colums == 5);
+	CHECK(b.rows == 3);
+	CHECK(b.mat[0][0] == 1);
+	CHECK(b.mat[1][1] == 1);
+	CHECK(b.mat[2][2] == 1);
+	// Test Case 3 --> Defult Constractor
+	Matrix c;
+	CHECK(b.colums == 1);
+	CHECK(b.rows == 1);
+	CHECK(b.mat[0][0] == 1);
+
+
+
 }
-TEST_CASE("Case 2")
+TEST_CASE("Arithmetic Operators")
 {
-	// Test Case 2 --> 
-	CHECK_FALSE(true == false);
-	CHECK(true == true);
+
+	// Test Case 1.1 --> +
+	std::vector<double> identity = {1,0,0,2,3,4};
+	Matrix a1(identity,2,3);
+	Matrix a2(2,3);
+	CHECK((a1+a2).mat[0][0] == 2);
+	CHECK((a1+a2).mat[1][0] == 2);
+	CHECK(((a1+a2).rows == 2));
+	CHECK(((a1+a2).colums == 3));
+	// Test Case 1.2 --> +=
+	a1 += a2;
+	CHECK(a1.mat[0][0] == 2);
+	CHECK(a1.mat[1][0] == 2);
+	CHECK((a1.rows == 2));
+	CHECK((a1.colums == 3));
+	// Test Case 2.1 --> -
+	Matrix b1(identity,2,3);
+	Matrix b2(2,3);
+	CHECK((b1-b2).mat[0][0] == 0);
+	CHECK((b1-b2).mat[1][0] == 2);
+	CHECK(((b1-b2).rows == 2));
+	CHECK(((b1-b2).colums == 3));
+	// Test Case 2.2 --> -=
+	b1 += b2;
+	CHECK(b1.mat[0][0] == 0);
+	CHECK(b1.mat[1][0] == 2);
+	CHECK((b1.rows == 2));
+	CHECK((b1.colums == 3));
+
+	// // Test Case 2.1 --> ++
+	Matrix c1(identity,2,3);
+	Matrix c2(identity,2,3);
+
+	++c1;
+	c1++;
+	CHECK(c1.mat[0][0] == 1);
+	CHECK((c1).mat[1][0] == 2);
+	CHECK(((b1-b2).rows == 2));
+	CHECK(((b1-b2).colums == 3));
+	// Test Case 2.2 --> --
+	b1 += b2;
+	CHECK(b1.mat[0][0] == 0);
+	CHECK(b1.mat[1][0] == 2);
+	CHECK((b1.rows == 2));
+	CHECK((b1.colums == 3));
+
+	
 }
 
 TEST_CASE("THROWS Input")
@@ -36,11 +102,6 @@ TEST_CASE("THROWS Input")
 	CHECK_THROWS(Matrix a(identity,3,0));
 	CHECK_THROWS(Matrix a(0,1));
 	CHECK_THROWS(Matrix a(1,0));
-	// // Test Case -->  Non-Natural number dimention numbers.
-	// CHECK_THROWS(Matrix a(identity,1.5,3));
-	// CHECK_THROWS(Matrix a(identity,3,2.2));
-	// CHECK_THROWS(Matrix a(-3.1476,1));
-	// CHECK_THROWS(Matrix a(1,2.71828182846));
 	
 	// Test Case --> The vector dont match the dimention given.
 	std::vector<double> v1 = {1, 0,};
@@ -94,25 +155,6 @@ TEST_CASE("THROWS Input")
 	CHECK_THROWS(mat2x3-=mat4x4);
 	CHECK_THROWS(mat4x4-=mat3x3);
 	CHECK_THROWS(mat4x3-=mat2x3);
-	
-
-	
-
-
-
-
 
     CHECK_THROWS(Matrix a(identity,-3,3));
-
-
-
-
-	// Check write for bad input  --> 
-	CHECK_THROWS();
-
-	// Check write for bad input  --> 
-	CHECK_THROWS();
-
-	// Check read for bad input  page/ row/ column.
-    CHECK_THROWS();
 }
